@@ -1,10 +1,12 @@
 package com.develhope.java15.fakecrud;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/student")
@@ -23,5 +25,14 @@ public class StudentController {
     public Student insert(@RequestBody Student student) {
         database.insert(student);
         return student;
+    }
+    
+    @GetMapping("/{id}")
+    public ResponseEntity<?> returnStudent(@PathVariable int id) {
+        Optional<Student> result = database.searchStudent(id);
+        if(result.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(result.get());
     }
 }
