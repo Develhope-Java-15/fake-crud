@@ -31,4 +31,8 @@ public class StudentDatabase {
         }
         return Optional.empty();
     }
+
+    public void deleteStudent (int id){
+        students.removeIf(student -> student.getId() == id);
+    }
 }
